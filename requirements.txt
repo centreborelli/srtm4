@@ -1,0 +1,3 @@
+filelock
+numpy
+requests
