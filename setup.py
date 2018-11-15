@@ -2,6 +2,8 @@ import os
 import subprocess
 from setuptools import setup, find_packages
 from setuptools.command.install import install
+from setuptools.command.develop import develop
+from setuptools.command.egg_info import egg_info
 
 
 def readme():
@@ -10,9 +12,18 @@ def readme():
 
 
 class CustomInstall(install):
-    """
-    Custom handler for the 'install' command.
-    """
+    def run(self):
+        subprocess.check_call("make", shell=True)
+        super().run()
+
+
+class CustomDevelop(develop):
+    def run(self):
+        subprocess.check_call("make", shell=True)
+        super().run()
+
+
+class CustomEggInfo(egg_info):
     def run(self):
         subprocess.check_call("make", shell=True)
         super().run()
@@ -28,5 +39,7 @@ setup(name="srtm4",
       author='Carlo de Franchis, Enric Meinhardt, Gabriele Facciolo',
       packages=find_packages(),
       install_requires=requirements,
-      cmdclass={'install': CustomInstall},
+      cmdclass={'install': CustomInstall,
+                'develop': CustomDevelop,
+                'egg_info': CustomEggInfo},
       zip_safe=False)
