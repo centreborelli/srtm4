@@ -1,0 +1,8 @@
+include README.md
+include requirements.txt
+include Makefile
+include src/*.c
+include src/*.h
+include src/*.cpp
+include src/*.hpp
+include data/egm96-15.pgm

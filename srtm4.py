@@ -18,7 +18,7 @@ import numpy as np
 import requests
 import filelock
 
-BIN = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'bin')
+BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bin')
 SRTM_DIR = os.path.join(os.path.expanduser('~'), '.srtm')
 SRTM_URL = 'http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF'
 
