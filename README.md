@@ -2,19 +2,22 @@
 
 Download and parsing of SRTM4 elevation data.
 
-[Carlo de Franchis](mailto:carlo.de-franchis@cmla.ens-cachan.fr),
-[Enric Meinhardt](enric.meinhardt@cmla.ens-cachan.fr),
-[Gabriele Facciolo](gabriele.facciolo@cmla.ens-cachan.fr) CMLA 2018
+[Carlo de Franchis](mailto:carlo.de-franchis@cmla.ens-cachan.fr), Enric
+Meinhardt, Gabriele Facciolo, CMLA 2018
 
 # Installation and dependencies
 
-    pip install -e .
+`srtm4` requires `libtiff` development files. They can be installed with
+`apt-get install libtiff-dev` (Ubuntu, Debian) or `brew install libtiff`
+(macOS).
 
-To compile `srtm4` manually, run
+Once `libtiff` is installed, `srtm4` can be installed with `pip`:
 
-    make
-
-in the main directory. This should produce a `bin` folder containing two
-compiled programs: `srtm4` and `srtm4_which_tile`.
+    pip install srtm4
 
 # Usage
+
+    >>> import srtm4
+    >>> longitude, latitude = 2, 48
+    >>> altitude = srtm4.srtm4(longitude, latitude)
+    >>> print(altitude)  # should be 174.613 (altitude in meters above the WGS84 ellipsoid)
