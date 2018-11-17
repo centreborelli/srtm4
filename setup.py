@@ -34,7 +34,16 @@ class CustomEggInfo(egg_info):
 class CustomBuildPy(build_py):
     def run(self):
         super().run()
-        subprocess.check_call("make CURDIR={}".format(sys.prefix), shell=True)
+
+        # the next 3 lines are a workaround for the fact that on Ubuntu 18.04
+        # sys.prefix doesn't match the path where setuptools puts data_files,
+        # in opposition to what is said here:
+        # https://github.com/pypa/sampleproject/blob/master/setup.py#L168
+        data_prefix = sys.prefix
+        if data_prefix == '/usr':
+            data_prefix = '/usr/local'
+
+        subprocess.check_call("make CURDIR={}".format(data_prefix), shell=True)
         subprocess.check_call("cp -r bin build/lib/", shell=True)
 
 
@@ -42,7 +51,7 @@ with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
 setup(name="srtm4",
-      version="0.19",
+      version="0.20",
       description='SRTM4 elevation data reader',
       long_description=readme(),
       url='https://github.com/cmla/srtm4',
@@ -54,6 +63,8 @@ setup(name="srtm4",
                 'develop': CustomDevelop,
                 'build_py': CustomBuildPy,
                 'egg_info': CustomEggInfo},
+      # the first item of the tuple below has to be "data" to match the path
+      # hardcoded in the Makefile
       data_files=[('data', ['data/egm96-15.pgm'])],
       include_package_data=True,
       zip_safe=False)
