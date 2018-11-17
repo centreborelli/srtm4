@@ -2,9 +2,7 @@ import os
 import sys
 import subprocess
 from setuptools import setup
-from setuptools.command.install import install
 from setuptools.command.develop import develop
-from setuptools.command.egg_info import egg_info
 from setuptools.command.build_py import build_py
 
 
@@ -13,25 +11,13 @@ def readme():
         return f.read()
 
 
-class CustomInstall(install):
+class CustomDevelop(develop):  # needed for "pip install -e ."
     def run(self):
-#        subprocess.check_call("make", shell=True)
+        subprocess.check_call("make", shell=True)
         super().run()
 
 
-class CustomDevelop(develop):
-    def run(self):
-#        subprocess.check_call("make", shell=True)
-        super().run()
-
-
-class CustomEggInfo(egg_info):
-    def run(self):
-#        subprocess.check_call("make", shell=True)
-        super().run()
-
-
-class CustomBuildPy(build_py):
+class CustomBuildPy(build_py):  # needed for "pip install srtm4"
     def run(self):
         super().run()
 
@@ -47,6 +33,15 @@ class CustomBuildPy(build_py):
         subprocess.check_call("cp -r bin build/lib/", shell=True)
 
 
+#class CustomInstall(install):
+#    def run(self):
+#        super().run()
+#
+#class CustomEggInfo(egg_info):
+#    def run(self):
+#        super().run()
+
+
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
@@ -59,10 +54,8 @@ setup(name="srtm4",
       author_email='carlo.de-franchis@ens-cachan.fr',
       py_modules=['srtm4'],
       install_requires=requirements,
-      cmdclass={'install': CustomInstall,
-                'develop': CustomDevelop,
-                'build_py': CustomBuildPy,
-                'egg_info': CustomEggInfo},
+      cmdclass={'develop': CustomDevelop,
+                'build_py': CustomBuildPy}
       # the first item of the tuple below has to be "data" to match the path
       # hardcoded in the Makefile
       data_files=[('data', ['data/egm96-15.pgm'])],
