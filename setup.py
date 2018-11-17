@@ -38,7 +38,7 @@ with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
 setup(name="srtm4",
-      version="0.24",
+      version="1.0a1",
       description='SRTM4 elevation data reader',
       long_description=readme(),
       url='https://github.com/cmla/srtm4',
