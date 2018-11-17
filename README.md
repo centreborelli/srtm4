@@ -17,7 +17,13 @@ Once `libtiff` is installed, `srtm4` can be installed with `pip`:
 
 # Usage
 
+In a Python interpreter:
+
     >>> import srtm4
     >>> longitude, latitude = 2, 48
     >>> altitude = srtm4.srtm4(longitude, latitude)
     >>> print(altitude)  # should be 174.613 (altitude in meters above the WGS84 ellipsoid)
+
+In a shell:
+
+    GEOID_PATH=data ./bin/srtm4 2 48

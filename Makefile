@@ -9,7 +9,7 @@ src/Geoid.o: src/Geoid.cpp
 	$(CXX) $(CPPFLAGS) -c $^ -o $@
 
 src/geoid_height_wrapper.o: src/geoid_height_wrapper.cpp
-	$(CXX) $(CPPFLAGS) -c $^ -o $@ -DGEOID_DATA_FILE_PATH="\"$(CURDIR)/data\""
+	$(CXX) $(CPPFLAGS) -c $^ -o $@
 
 bin/srtm4: src/srtm4.c src/Geoid.o src/geoid_height_wrapper.o
 	$(C99) $(CFLAGS) -DMAIN_SRTM4 $^ $(LDLIBS) -o $@

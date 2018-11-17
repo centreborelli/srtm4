@@ -19,6 +19,7 @@ import requests
 import filelock
 
 BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bin')
+GEOID = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 SRTM_DIR = os.path.join(os.path.expanduser('~'), '.srtm')
 SRTM_URL = 'http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF'
 
@@ -151,7 +152,9 @@ def srtm4(lon, lat):
 
     # run the srtm4 binary and feed it from stdin
     p = subprocess.Popen(['srtm4'], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                         env={'PATH': BIN, 'SRTM4_CACHE': SRTM_DIR})
+                         env={'PATH': BIN,
+                              'SRTM4_CACHE': SRTM_DIR,
+                              'GEOID_PATH': GEOID})
     outs, errs = p.communicate(input=lon_lats.encode())
 
     # return the altitudes
