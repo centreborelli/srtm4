@@ -72,7 +72,7 @@ static char *cachedir(void)
         char *homedir = getenv("HOME");
         if (!homedir)
             homedir = "/tmp";
-        snprintf(output_dirname, FILENAME_MAX, "%s/.srtm4", homedir);
+        snprintf(output_dirname, FILENAME_MAX, "%s/.srtm", homedir);
     }
     int r = mkdir(output_dirname, 0777);
     if (r != 0 && errno != EEXIST) {
