@@ -3,3 +3,5 @@
 *.o
 *.dSYM
 bin
+dist
+*.egg-info
