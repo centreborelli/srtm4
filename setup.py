@@ -1,4 +1,5 @@
 import os
+import sys
 import subprocess
 from setuptools import setup
 from setuptools.command.install import install
@@ -14,26 +15,26 @@ def readme():
 
 class CustomInstall(install):
     def run(self):
-        subprocess.check_call("make", shell=True)
+#        subprocess.check_call("make", shell=True)
         super().run()
 
 
 class CustomDevelop(develop):
     def run(self):
-        subprocess.check_call("make", shell=True)
+#        subprocess.check_call("make", shell=True)
         super().run()
 
 
 class CustomEggInfo(egg_info):
     def run(self):
-        subprocess.check_call("make", shell=True)
+#        subprocess.check_call("make", shell=True)
         super().run()
 
 
 class CustomBuildPy(build_py):
     def run(self):
         super().run()
-        subprocess.check_call("make", shell=True)
+        subprocess.check_call("make CURDIR={}".format(sys.prefix), shell=True)
         subprocess.check_call("cp -r bin build/lib/", shell=True)
 
 
@@ -41,7 +42,7 @@ with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
 setup(name="srtm4",
-      version="0.15",
+      version="0.19",
       description='SRTM4 elevation data reader',
       long_description=readme(),
       url='https://github.com/cmla/srtm4',
@@ -53,4 +54,6 @@ setup(name="srtm4",
                 'develop': CustomDevelop,
                 'build_py': CustomBuildPy,
                 'egg_info': CustomEggInfo},
+      data_files=[('data', ['data/egm96-15.pgm'])],
+      include_package_data=True,
       zip_safe=False)
