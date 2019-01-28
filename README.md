@@ -7,8 +7,9 @@ Meinhardt, Gabriele Facciolo, CMLA 2018
 
 # Installation and dependencies
 
-This Python module is written in Python 3. It was tested with Python 3.5 and
-3.6. It doesn't support Python 2.
+The main source code repository for this project is https://github.com/cmla/srtm4.
+It is written in Python 3. It was tested with Python 3.5 and 3.6. It doesn't
+support Python 2.
 
 `srtm4` requires `libtiff` development files. They can be installed with
 `apt-get install libtiff-dev` (Ubuntu, Debian) or `brew install libtiff`
