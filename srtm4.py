@@ -11,7 +11,6 @@ Copyright (C) 2016, Carlo de Franchis <carlo.de-franchis@ens-cachan.fr>
 from __future__ import print_function
 import subprocess
 import zipfile
-import errno
 import os
 
 import numpy as np
