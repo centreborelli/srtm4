@@ -11,7 +11,6 @@ Copyright (C) 2016, Carlo de Franchis <carlo.de-franchis@ens-cachan.fr>
 from __future__ import print_function
 import subprocess
 import zipfile
-import errno
 import os
 
 import numpy as np
@@ -22,20 +21,6 @@ BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bin')
 GEOID = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
 SRTM_DIR = os.path.join(os.path.expanduser('~'), '.srtm')
 SRTM_URL = 'http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF'
-
-
-def mkdir_p(path):
-    """
-    Create a directory and its parents without complaining if some already exist.
-    """
-    if path:
-        try:
-            os.makedirs(path)
-        except OSError as exc:  # requires Python > 2.5
-            if exc.errno == errno.EEXIST and os.path.isdir(path):
-                pass
-            else:
-                raise
 
 
 def download(to_file, from_url):
@@ -67,7 +52,8 @@ def get_srtm_tile(srtm_tile, out_dir):
     """
 
     # check if the tile is already there
-    mkdir_p(out_dir)
+    out_dir = os.path.abspath(os.path.expanduser(out_dir))
+    os.makedirs(out_dir, exist_ok=True)
 
     srtm_zip_download_lock = os.path.join(out_dir, 'srtm_zip.lock')
     srtm_tif_write_lock = os.path.join(out_dir, 'srtm_tif.lock')
