@@ -49,5 +49,5 @@ setup(name="srtm4",
       cmdclass={'develop': CustomDevelop,
                 'build_py': CustomBuildPy},
       include_package_data=True,
-      python_requires='>=3',
+      python_requires='>=3.2',
       zip_safe=False)
