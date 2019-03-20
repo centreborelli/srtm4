@@ -19,7 +19,7 @@ import filelock
 
 BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bin')
 GEOID = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-SRTM_DIR = os.path.join(os.path.expanduser('~'), '.srtm')
+SRTM_DIR = os.getenv('SRTM_DIR')
 SRTM_URL = 'http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF'
 
 
@@ -52,7 +52,11 @@ def get_srtm_tile(srtm_tile, out_dir):
     """
 
     # check if the tile is already there
-    out_dir = os.path.abspath(os.path.expanduser(out_dir))
+    if SRTM_DIR:
+        out_dir = SRTM_DIR
+    else:
+        out_dir = os.path.abspath(os.path.expanduser(out_dir))
+
     os.makedirs(out_dir, exist_ok=True)
 
     srtm_zip_download_lock = os.path.join(out_dir, 'srtm_zip.lock')
