@@ -19,7 +19,11 @@ import filelock
 
 BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bin')
 GEOID = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'data')
-SRTM_DIR = os.getenv('SRTM_DIR')
+
+SRTM_DIR = os.getenv('SRTM4_CACHE')
+if not SRTM_DIR:
+    SRTM_DIR = os.path.join(os.path.expanduser('~'), '.srtm')
+
 SRTM_URL = 'http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF'
 
 
@@ -50,19 +54,13 @@ def get_srtm_tile(srtm_tile, out_dir):
             the desired strm tile
         out_dir: directory where to store and extract the srtm tiles
     """
+    output_dir = os.path.abspath(os.path.expanduser(out_dir))
+    os.makedirs(output_dir, exist_ok=True)
 
-    # check if the tile is already there
-    if SRTM_DIR:
-        out_dir = SRTM_DIR
-    else:
-        out_dir = os.path.abspath(os.path.expanduser(out_dir))
+    srtm_zip_download_lock = os.path.join(output_dir, 'srtm_zip.lock')
+    srtm_tif_write_lock = os.path.join(output_dir, 'srtm_tif.lock')
 
-    os.makedirs(out_dir, exist_ok=True)
-
-    srtm_zip_download_lock = os.path.join(out_dir, 'srtm_zip.lock')
-    srtm_tif_write_lock = os.path.join(out_dir, 'srtm_tif.lock')
-
-    if os.path.exists(os.path.join(out_dir, '{}.tif'.format(srtm_tile))):
+    if os.path.exists(os.path.join(output_dir, '{}.tif'.format(srtm_tile))):
         # the tif file is either being written or finished writing
         # locking will ensure it is not being written.
         # Also by construction we won't write on something complete.
@@ -73,12 +71,12 @@ def get_srtm_tile(srtm_tile, out_dir):
 
     # download the zip file
     srtm_tile_url = '{}/{}.zip'.format(SRTM_URL, srtm_tile)
-    zip_path = os.path.join(out_dir, '{}.zip'.format(srtm_tile))
+    zip_path = os.path.join(output_dir, '{}.zip'.format(srtm_tile))
 
     lock_zip = filelock.FileLock(srtm_zip_download_lock)
     lock_zip.acquire()
 
-    if os.path.exists(os.path.join(out_dir, '{}.tif'.format(srtm_tile))):
+    if os.path.exists(os.path.join(output_dir, '{}.tif'.format(srtm_tile))):
         # since the zip lock is returned after the tif lock
         # if we end up here, it means another process downloaded the zip
         # and extracted it.
@@ -98,7 +96,7 @@ def get_srtm_tile(srtm_tile, out_dir):
     # extract the tif file
     if zipfile.is_zipfile(zip_path):
         z = zipfile.ZipFile(zip_path, 'r')
-        z.extract('{}.tif'.format(srtm_tile), out_dir)
+        z.extract('{}.tif'.format(srtm_tile), output_dir)
     else:
         print('{} not available'.format(srtm_tile))
 
@@ -122,6 +120,7 @@ def srtm4(lon, lat):
         height(s) in meters above the WGS84 ellipsoid (not the EGM96 geoid)
     """
     # determine the needed srtm tiles by running the srtm4_which_tile binary
+
     p = subprocess.Popen(['srtm4_which_tile'], stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
                          env={'PATH': BIN, 'SRTM4_CACHE': SRTM_DIR})
