@@ -25,20 +25,11 @@ class CustomBuildPy(build_py):  # needed for "pip install srtm4"
         subprocess.check_call("cp -r bin data build/lib/", shell=True)
 
 
-#class CustomInstall(install):
-#    def run(self):
-#        super().run()
-#
-#class CustomEggInfo(egg_info):
-#    def run(self):
-#        super().run()
-
-
 with open('requirements.txt') as f:
     requirements = f.read().splitlines()
 
 setup(name="srtm4",
-      version="1.0a2",
+      version="1.0a3",
       description='SRTM4 elevation data reader',
       long_description=readme(),
       url='https://github.com/cmla/srtm4',
