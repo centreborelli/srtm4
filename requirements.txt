@@ -1,3 +1,0 @@
-filelock
-numpy
-requests
