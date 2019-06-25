@@ -55,7 +55,10 @@ def get_srtm_tile(srtm_tile, out_dir):
         out_dir: directory where to store and extract the srtm tiles
     """
     output_dir = os.path.abspath(os.path.expanduser(out_dir))
-    os.makedirs(output_dir, exist_ok=True)
+    try:
+        os.makedirs(output_dir)
+    except OSError:
+        pass
 
     srtm_zip_download_lock = os.path.join(output_dir, 'srtm_zip.lock')
     srtm_tif_write_lock = os.path.join(output_dir, 'srtm_tif.lock')

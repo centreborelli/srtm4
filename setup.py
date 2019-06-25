@@ -35,7 +35,7 @@ requirements = ['filelock',
 
 
 setup(name="srtm4",
-      version="1.0a4",
+      version="1.0.0",
       description='SRTM4 elevation data reader',
       long_description=readme(),
       long_description_content_type='text/markdown',
@@ -47,5 +47,5 @@ setup(name="srtm4",
       cmdclass={'develop': CustomDevelop,
                 'build_py': CustomBuildPy},
       include_package_data=True,
-      python_requires='>=3.2',
+      python_requires='>=2.7',
       zip_safe=False)
