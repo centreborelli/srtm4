@@ -1,0 +1,26 @@
+os: linux
+dist: xenial
+language: python
+python: 3.7
+
+install: pip install -e ".[test]"
+script: pytest --cov=srtm4 --cov-report term-missing .
+
+jobs:
+  include:
+    - stage: test
+    - stage: test
+      python: 2.7
+
+    - stage: deploy
+      if: tag IS present AND repo = cmla/srtm4
+      install: skip
+      script: skip
+      deploy:
+        - provider: pypi
+          user: carlodef
+          password:
+              YOUR_PASSWORD_HERE
+          distributions: sdist
+          on:
+            tags: true
