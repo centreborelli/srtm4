@@ -2,7 +2,7 @@
 
 Download and parsing of SRTM4 elevation data.
 
-[![Build Status](https://travis-ci.com/cmla/srtm4.svg?branch=dev)](https://travis-ci.com/cmla/srtm4)
+[![Build Status](https://travis-ci.com/cmla/srtm4.svg?branch=master)](https://travis-ci.com/cmla/srtm4)
 [![PyPI version](https://img.shields.io/pypi/v/srtm4)](https://pypi.org/project/srtm4)
 
 [Carlo de Franchis](mailto:carlo.de-franchis@cmla.ens-cachan.fr), Enric
