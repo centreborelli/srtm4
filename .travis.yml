@@ -1,0 +1,30 @@
+os: linux
+dist: xenial
+language: python
+python: 3.7
+
+install: pip install -e ".[test]"
+script: pytest --cov=srtm4 --cov-report term-missing .
+
+jobs:
+  include:
+    - stage: test
+    - stage: test
+      python: 3.6
+    - stage: test
+      python: 3.5
+    - stage: test
+      python: 2.7
+
+    - stage: deploy
+      if: tag IS present AND repo = cmla/srtm4
+      install: skip
+      script: skip
+      deploy:
+        - provider: pypi
+          user: carlodef
+          password:
+              secure: EyGeXanL1wLaO0C0+DKOKSemL0l8n/1CdAv7xmgn6tfQfm34VHT3ossY1jowd9iUdjzqXF2TTWDKSzyWVgzUcHqgB7tc6Mpo2ZpUioKj5tHCadr4/LXdU06BzI+UQXhmdocG1Mt78XZhW2a2HTjFsvgnjMx1oHkhHCZge3LdzpG9jPwkrumunCy6/23Xw4zAxoGs5JXOvzc07W6h8kI+nCwCutTymhS85XDZTo/sod2DPNAZNFmtVrc0nMq6PP6we7GlOx26LBs/Bump9p2l+Xeur9mFQVFMMWgyu9EYUdE/oxytOgMaAaSlwbEP0k71+EZY2bWEkDFE/16RK6Nc8G/BJF5G/Nawnbbakvly485THgncQNFXYrFLcbwdVaDp2LIfrjpfKnoiR6Khb9F74VhT5yZKn2jt55KUBAqHmXFeMlgt66uoiaYX85JGA4RMc7Y9/fiMt+Jm0T/ni8Vy3jpoziJvHkYOn8MhU98v4McMYQpEr8yUuP/CvPEOz+dYYyLunXVwHBhS8URuE9GtPMGYGCGswLV9REK1+PeXeDJ8YXz2svkNHlDqZY0NgriIRTAC2niLRMWr0PGV84RKp7AYB+eJEu4TQvh5ne0s9xCpsxKA7u71DplUQuE/yVHXdtI1E5kqmRko1YjpMjECY1W98HN3gJeY1up19qp5cxI=
+          distributions: sdist
+          on:
+            tags: true
