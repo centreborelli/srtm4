@@ -20,7 +20,7 @@ jobs:
         - provider: pypi
           user: carlodef
           password:
-              YOUR_PASSWORD_HERE
+              secure: EyGeXanL1wLaO0C0+DKOKSemL0l8n/1CdAv7xmgn6tfQfm34VHT3ossY1jowd9iUdjzqXF2TTWDKSzyWVgzUcHqgB7tc6Mpo2ZpUioKj5tHCadr4/LXdU06BzI+UQXhmdocG1Mt78XZhW2a2HTjFsvgnjMx1oHkhHCZge3LdzpG9jPwkrumunCy6/23Xw4zAxoGs5JXOvzc07W6h8kI+nCwCutTymhS85XDZTo/sod2DPNAZNFmtVrc0nMq6PP6we7GlOx26LBs/Bump9p2l+Xeur9mFQVFMMWgyu9EYUdE/oxytOgMaAaSlwbEP0k71+EZY2bWEkDFE/16RK6Nc8G/BJF5G/Nawnbbakvly485THgncQNFXYrFLcbwdVaDp2LIfrjpfKnoiR6Khb9F74VhT5yZKn2jt55KUBAqHmXFeMlgt66uoiaYX85JGA4RMc7Y9/fiMt+Jm0T/ni8Vy3jpoziJvHkYOn8MhU98v4McMYQpEr8yUuP/CvPEOz+dYYyLunXVwHBhS8URuE9GtPMGYGCGswLV9REK1+PeXeDJ8YXz2svkNHlDqZY0NgriIRTAC2niLRMWr0PGV84RKp7AYB+eJEu4TQvh5ne0s9xCpsxKA7u71DplUQuE/yVHXdtI1E5kqmRko1YjpMjECY1W98HN3gJeY1up19qp5cxI=
           distributions: sdist
           on:
             tags: true
