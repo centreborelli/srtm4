@@ -11,6 +11,7 @@ Copyright (C) 2016, Carlo de Franchis <carlo.de-franchis@ens-cachan.fr>
 from __future__ import print_function
 import subprocess
 import zipfile
+import sys
 import os
 
 import numpy as np
@@ -37,7 +38,8 @@ def download(to_file, from_url):
     """
     r = requests.get(from_url, stream=True)
     file_size = int(r.headers['content-length'])
-    print("Downloading: {} Bytes: {}".format(to_file, file_size))
+    print("Downloading: {} Bytes: {}".format(to_file, file_size),
+          file=sys.stderr)
 
     with open(to_file, 'wb') as f:
         for chunk in r.iter_content(chunk_size=8192):
