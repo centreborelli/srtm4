@@ -26,6 +26,7 @@ class CustomBuildPy(build_py.build_py, object):
     def run(self):
         super(CustomBuildPy, self).run()
         subprocess.check_call("make", shell=True)
+        subprocess.check_call("mkdir -p build/lib/", shell=True)
         subprocess.check_call("cp -r bin data build/lib/", shell=True)
 
 
