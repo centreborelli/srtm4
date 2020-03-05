@@ -146,9 +146,12 @@ def srtm4_which_tile(lon, lat):
     """
     # run the srtm4_which_tile binary and feed it from stdin
     lon_lats = lon_lats_str(lon, lat)
+    env = dict(os.environ)
+    env['PATH'] = '{}:{}'.format(BIN, env['PATH'])
+    env['SRTM4_CACHE'] = SRTM_DIR
     p = subprocess.Popen(['srtm4_which_tile'], stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
-                         env={'PATH': BIN, 'SRTM4_CACHE': SRTM_DIR})
+                         env=env)
     outs, errs = p.communicate(input=lon_lats.encode())
 
     # read the list of needed tiles
