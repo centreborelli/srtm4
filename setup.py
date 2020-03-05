@@ -8,7 +8,7 @@ def _createMakefile():
     template = open('Makefile.in').read()
     cflags = os.environ.get('CFLAGS', '')
     cppflags = os.environ.get('CPPFLAGS', '')
-    ldlibs = os.environ.get('LDLIBS', '')
+    ldflags = os.environ.get('LDFLAGS', '')
     content = template.format(**locals())
     open('Makefile', 'wt').write(content)
     return

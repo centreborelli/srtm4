@@ -1,7 +1,7 @@
 C99 = $(CC) -std=c99
 CFLAGS = -g -O3 -DNDEBUG -DDONT_USE_TEST_MAIN {cflags}
 CPPFLAGS = -g -O3 -fpermissive -DNDEBUG -DDONT_USE_TEST_MAIN {cppflags}
-LDLIBS = -lstdc++ -lz -lm -ltiff {ldlibs}
+LDLIBS = -lstdc++ -lz -lm -ltiff {ldflags}
 
 default: bin bin/srtm4 bin/srtm4_which_tile
 
