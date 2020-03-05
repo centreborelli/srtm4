@@ -146,12 +146,9 @@ def srtm4_which_tile(lon, lat):
     """
     # run the srtm4_which_tile binary and feed it from stdin
     lon_lats = lon_lats_str(lon, lat)
-    env = dict(os.environ)
-    env['PATH'] = '{}:{}'.format(BIN, env['PATH'])
-    env['SRTM4_CACHE'] = SRTM_DIR
     p = subprocess.Popen(['srtm4_which_tile'], stdin=subprocess.PIPE,
                          stdout=subprocess.PIPE,
-                         env=env)
+                         env={'PATH': BIN, 'SRTM4_CACHE': SRTM_DIR})
     outs, errs = p.communicate(input=lon_lats.encode())
 
     # read the list of needed tiles
@@ -179,15 +176,10 @@ def srtm4(lon, lat):
 
     # run the srtm4 binary and feed it from stdin
     lon_lats = lon_lats_str(lon, lat)
-    env = dict(os.environ)
-    env['PATH'] = '{}:{}'.format(BIN, env['PATH'])
-    env['SRTM4_CACHE'] = SRTM_DIR
-    env['GEOID_PATH'] = GEOID
-    p = subprocess.Popen(['srtm4_which_tile'], stdin=subprocess.PIPE,
-                         stdout=subprocess.PIPE,
-                         env=env)
     p = subprocess.Popen(['srtm4'], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                         env=env)
+                         env={'PATH': BIN,
+                              'SRTM4_CACHE': SRTM_DIR,
+                              'GEOID_PATH': GEOID})
     outs, errs = p.communicate(input=lon_lats.encode())
 
     # return the altitudes
