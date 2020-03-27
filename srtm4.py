@@ -16,6 +16,7 @@ import os
 
 import numpy as np
 import requests
+from requests.adapters import HTTPAdapter, Retry
 import filelock
 
 BIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'bin')
@@ -28,6 +29,29 @@ if not SRTM_DIR:
 SRTM_URL = 'http://data_public:GDdci@data.cgiar-csi.org/srtm/tiles/GeoTIFF'
 
 
+def _requests_retry_session(
+        retries=5,
+        backoff_factor=0.3,
+        status_forcelist=(500, 502, 503, 504),
+):
+    """
+    Makes a requests object with built-in retry handling with
+    exponential back-off on 5xx error codes.
+    """
+    session = requests.Session()
+    retry = Retry(
+        total=retries,
+        read=retries,
+        connect=retries,
+        backoff_factor=backoff_factor,
+        status_forcelist=status_forcelist,
+    )
+    adapter = HTTPAdapter(max_retries=retry)
+    session.mount("http://", adapter)
+    session.mount("https://", adapter)
+    return session
+
+
 def download(to_file, from_url):
     """
     Download a file from the internet.
@@ -36,7 +60,10 @@ def download(to_file, from_url):
         to_file: path where to store the downloaded file
         from_url: url of the file to download
     """
-    r = requests.get(from_url, stream=True)
+    # Use a requests session with retry logic because the server at
+    # SRTM_URL sometimes returns 503 responses when overloaded
+    session = _requests_retry_session()
+    r = session.get(from_url, stream=True)
     file_size = int(r.headers['content-length'])
     print("Downloading: {} Bytes: {}".format(to_file, file_size),
           file=sys.stderr)
