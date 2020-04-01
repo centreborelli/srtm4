@@ -126,7 +126,7 @@ def get_srtm_tile(srtm_tile, out_dir):
         return
 
     if os.path.exists(zip_path):
-        print ('zip already exists')
+        print('zip already exists')
         # Only possibility here is that the previous process was cut short
 
     try:
