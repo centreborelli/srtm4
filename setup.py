@@ -34,7 +34,7 @@ requirements = ['filelock',
                 'numpy',
                 'requests']
 
-extras_require = {'test': ['pytest', 'pytest-cov']}
+extras_require = {'test': ['pytest>=4.6', 'pytest-cov']}
 
 setup(name="srtm4",
       version="1.1.4-dev",
