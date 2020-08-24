@@ -26,7 +26,9 @@ SRTM_DIR = os.getenv('SRTM4_CACHE')
 if not SRTM_DIR:
     SRTM_DIR = os.path.join(os.path.expanduser('~'), '.srtm')
 
-SRTM_URL = 'http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF'
+SRTM_HTTP_URL = 'http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF'
+SRTM_URL = os.environ.get('SRTM_DATA_URL', SRTM_HTTP_URL)
+if SRTM_URL.endswith('/'): SRTM_URL = SRTM_URL[:-1]
 
 
 def _requests_retry_session(
@@ -51,10 +53,28 @@ def _requests_retry_session(
     session.mount("https://", adapter)
     return session
 
-
 def download(to_file, from_url):
+    '''download a file from the internet
+
+    Args:
+        to_file: path where to store the downloaded file
+        from_url: url of the file to download. could be http or s3
+
+    Raises:
+        RetryError: if the `get` call exceeds the number of retries
+            on 5xx codes
+        ConnectionError: if the `get` call does not return a 200 code
+        NotImplementedError: if the url type is not supported
+    '''
+    if from_url.startswith('http://') or from_url.startswith('https://'):
+        return _download_http(to_file, from_url)
+    if from_url.startswith('s3://'):
+        return _download_s3(to_file, from_url)
+    raise NotImplementedError("{} -> {}".format(from_url, to_file))
+
+def _download_http(to_file, from_url):
     """
-    Download a file from the internet.
+    Download a file from the internet using http.
 
     Args:
         to_file: path where to store the downloaded file
@@ -82,6 +102,11 @@ def download(to_file, from_url):
             if chunk:  # filter out keep-alive new chunks
                 f.write(chunk)
 
+
+def _download_s3(to_file, from_url):
+    import sh
+    sh.aws('s3', 'cp', from_url, to_file)
+    return
 
 def get_srtm_tile(srtm_tile, out_dir):
     """

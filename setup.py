@@ -4,6 +4,16 @@ from codecs import open
 from setuptools import setup
 from setuptools.command import develop, build_py
 
+def _createMakefile():
+    template = open('Makefile.in').read()
+    cflags = os.environ.get('CFLAGS', '')
+    cppflags = os.environ.get('CPPFLAGS', '')
+    ldflags = os.environ.get('LDFLAGS', '')
+    content = template.format(**locals())
+    open('Makefile', 'wt').write(content)
+    return
+_createMakefile()
+
 
 def readme():
     with open('README.md', 'r', 'utf-8') as f:

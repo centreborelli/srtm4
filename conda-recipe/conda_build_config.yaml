@@ -1,0 +1,12 @@
+python:
+  - 3.6
+  - 3.7
+  - 3.8
+libtiff:
+  - 4.1.0
+
+pin_run_as_build:
+  libtiff:
+    max_pin: x.x
+  python:
+    max_pin: x
