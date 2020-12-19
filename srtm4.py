@@ -26,7 +26,7 @@ SRTM_DIR = os.getenv('SRTM4_CACHE')
 if not SRTM_DIR:
     SRTM_DIR = os.path.join(os.path.expanduser('~'), '.srtm')
 
-SRTM_URL = 'http://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF'
+SRTM_URL = 'https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF'
 
 
 def _requests_retry_session(
