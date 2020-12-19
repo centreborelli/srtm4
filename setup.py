@@ -37,7 +37,7 @@ requirements = ['filelock',
 extras_require = {'test': ['pytest>=4.6', 'pytest-cov']}
 
 setup(name="srtm4",
-      version="1.1.4-dev",
+      version="1.1.5",
       description='SRTM4 elevation data reader',
       long_description=readme(),
       long_description_content_type='text/markdown',
