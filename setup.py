@@ -32,7 +32,10 @@ class CustomBuildPy(build_py.build_py, object):
 
 requirements = ['filelock',
                 'numpy',
-                'requests']
+                'requests', 
+                'affine', 
+                'pyproj', 
+                'rasterio']
 
 extras_require = {'test': ['pytest>=4.6', 'pytest-cov']}
 
