@@ -357,6 +357,7 @@ def to_ellipsoid(lons, lats, alts):
     Returns:
         (array): altitudes referenced to the ellipsoid
     """
+    dtype = alts.dtype
     # WGS84 with ellipsoid height as vertical axis
     ellipsoid = pyproj.CRS.from_epsg(4979)
 
@@ -369,7 +370,7 @@ def to_ellipsoid(lons, lats, alts):
     new_alt = trf.transform(lats, lons, alts)[-1]
 
     assert np.any(new_alt != alts)
-    return np.around(new_alt, 5)
+    return np.around(new_alt, 5).astype(dtype)
 
 
 def intersect_bounds(one_bound, other_bound):
