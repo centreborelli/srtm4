@@ -32,12 +32,14 @@ class CustomBuildPy(build_py.build_py, object):
 
 requirements = ['filelock',
                 'numpy',
-                'requests', 
-                'affine', 
-                'pyproj', 
-                'rasterio']
+                'requests'
+                ]
+                
 
-extras_require = {'test': ['pytest>=4.6', 'pytest-cov']}
+extras_require = {
+        'test': ['pytest>=4.6', 'pytest-cov'],
+        'crop': ['rasterio', 'pyproj', 'affine'],
+        }
 
 setup(name="srtm4",
       version="1.1.5",
@@ -47,7 +49,7 @@ setup(name="srtm4",
       url='https://github.com/cmla/srtm4',
       author='Carlo de Franchis, Enric Meinhardt, Gabriele Facciolo',
       author_email='carlo.de-franchis@ens-cachan.fr',
-      py_modules=['srtm4'],
+      py_modules=['srtm4', 'srtm4c'],
       install_requires=requirements,
       extras_require=extras_require,
       cmdclass={'develop': CustomDevelop,
