@@ -16,7 +16,8 @@ pyproj.network.set_network_enabled(active=True)
 
 import rasterio
 
-from srtm4 import get_srtm_tile, srtm4_which_tile, SRTM_DIR
+from srtm4.download import get_srtm_tile
+from srtm4.point import srtm4_which_tile, SRTM_DIR
 
 TILE_SIZE = 6000
 # degree resolution

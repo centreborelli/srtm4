@@ -2,14 +2,14 @@ import pytest
 import numpy as np
 import os
 import rasterio
-import srtm4c
 import srtm4
+import srtm4.raster
 
 @pytest.mark.parametrize(
     "bound, datum, expected_shape",
     [
      # bounds on a tile exactly
-     ((20.0, 45.0 + 1.1 * srtm4c.RES, 25.0 - 1.1*srtm4c.RES, 50.0), "orthometric", (6000, 6000)),
+     ((20.0, 45.0 + 1.1 * srtm4.raster.RES, 25.0 - 1.1*srtm4.raster.RES, 50.0), "orthometric", (6000, 6000)),
      # in 2 tiles, one is all nan, does not exist
      ((-112, 16, -108, 18), "orthometric", (2401, 4802)),
      # bounds wrapping
@@ -21,13 +21,13 @@ import srtm4
 def test_crop(bound, datum, expected_shape, tmp_path, monkeypatch):
     monkeypatch.setenv("SRTM4_CACHE", str(tmp_path))
 
-    raster, transform, crs = srtm4c.crop(bound, datum=datum)
+    raster, transform, crs = srtm4.crop(bound, datum=datum)
     assert raster.shape == expected_shape
     assert raster.dtype == np.float32
 
     # write to file
     dem_path = os.path.join(str(tmp_path), "dem.tif")
-    srtm4c.write_crop_to_file(raster, transform, crs, dem_path)
+    srtm4.raster.write_crop_to_file(raster, transform, crs, dem_path)
 
     # re-read
     with rasterio.open(dem_path, 'r') as db:
