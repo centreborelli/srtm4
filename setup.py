@@ -32,14 +32,13 @@ class CustomBuildPy(build_py.build_py, object):
 
 requirements = ['filelock',
                 'numpy',
-                'requests'
-                ]
+                'requests']
 
 
 extras_require = {
         'test': ['pytest>=4.6', 'pytest-cov'],
-        'crop': ['rasterio', 'pyproj', 'affine'],
-        }
+        'crop': ['rasterio', 'pyproj>=3.0', 'affine'],
+}
 
 setup(name="srtm4",
       version="1.2.0",

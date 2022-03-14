@@ -7,3 +7,7 @@ try:
     from srtm4.raster import crop
 except ImportError:  # optional requirements were not installed
     pass
+except AttributeError:  # some optional requirements are available but don't
+                        # match the required version. E.g. pyproj < 3 triggers:
+                        # module 'pyproj' has no attribute 'network'
+    pass
