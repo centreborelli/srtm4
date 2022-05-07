@@ -41,7 +41,7 @@ extras_require = {
 }
 
 setup(name="srtm4",
-      version="1.2.1",
+      version="1.2.2",
       description='SRTM4 elevation data reader',
       long_description=readme(),
       long_description_content_type='text/markdown',
