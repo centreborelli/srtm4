@@ -59,7 +59,7 @@ def download(to_file, from_url):
     # Use a requests session with retry logic because the server at
     # SRTM_URL sometimes returns 503 responses when overloaded
     session = _requests_retry_session()
-    r = session.get(from_url, stream=True)
+    r = session.get(from_url, stream=True, verify=False)
     if not r.ok:
         raise ConnectionError(
             "Response code {} received for url {}".format(r.status_code, from_url)
