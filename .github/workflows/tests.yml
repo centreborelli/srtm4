@@ -1,0 +1,23 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v4
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install srtm4
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[test,crop]"
+      - name: Run tests
+        run: |
+          pytest --cov=srtm4 --cov-report term-missing .
