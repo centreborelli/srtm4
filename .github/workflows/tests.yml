@@ -21,4 +21,5 @@ jobs:
           pip install -e ".[test,crop]"
       - name: Run tests
         run: |
+          pyproj sync -v --file us_nga_egm96_15
           pytest --cov=srtm4 --cov-report term-missing .
