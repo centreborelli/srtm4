@@ -36,8 +36,8 @@ requirements = ['filelock',
 
 
 extras_require = {
-        'test': ['pytest>=4.6', 'pytest-cov'],
-        'crop': ['rasterio', 'pyproj>=3.0,<=3.3.1', 'affine'],
+        'test': ['pytest', 'pytest-cov'],
+        'crop': ['rasterio', 'pyproj>=3.0', 'affine'],
 }
 
 setup(name="srtm4",
