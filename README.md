@@ -32,3 +32,7 @@ In a Python interpreter:
 In a shell:
 
     GEOID_PATH=data ./bin/srtm4 2 48
+
+For the `crop` function, if pyproj complains about the download of file, you can fix it manually with the command:
+
+    pyproj sync -v --file us_nga_egm96_15
