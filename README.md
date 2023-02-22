@@ -2,7 +2,6 @@
 
 Download and parsing of SRTM4 elevation data.
 
-[![Build Status](https://travis-ci.com/cmla/srtm4.svg?branch=master)](https://travis-ci.com/cmla/srtm4)
 [![PyPI version](https://img.shields.io/pypi/v/srtm4)](https://pypi.org/project/srtm4)
 
 [Carlo de Franchis](mailto:carlo.de-franchis@cmla.ens-cachan.fr), Enric
@@ -10,8 +9,8 @@ Meinhardt, Gabriele Facciolo, CMLA 2018
 
 # Installation and dependencies
 
-The main source code repository for this project is https://github.com/cmla/srtm4.
-It is written in Python. It was tested with Python 3.5, 3.6 and 2.7.
+The main source code repository for this project is https://github.com/centreborelli/srtm4.
+It is written in Python. It is tested with Python 3.7, 3.8, 3.9 and 3.10.
 
 `srtm4` requires `libtiff` development files. They can be installed with
 `apt-get install libtiff-dev` (Ubuntu, Debian) or `brew install libtiff`
@@ -33,3 +32,7 @@ In a Python interpreter:
 In a shell:
 
     GEOID_PATH=data ./bin/srtm4 2 48
+
+For the `crop` function, if pyproj complains about the download of file, you can fix it manually with the command:
+
+    pyproj sync -v --file us_nga_egm96_15

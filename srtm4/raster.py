@@ -19,6 +19,12 @@ import rasterio
 from srtm4.download import get_srtm_tile
 from srtm4.point import srtm4_which_tile, SRTM_DIR
 
+try:
+    from functools import cache
+except ImportError:
+    from functools import lru_cache
+    cache = lru_cache(maxsize=None)
+
 TILE_SIZE = 6000
 # degree resolution
 RES = 3 / 3600
@@ -125,6 +131,17 @@ def adjust_bounds_to_px_grid(bounds):
     return adjusted_bounds, transform, shape
 
 
+@cache
+def _get_ellipsoid_geoid_transformer():
+    # WGS84 with ellipsoid height as vertical axis
+    ellipsoid = pyproj.CRS.from_epsg(4979)
+
+    # WGS84 with Gravity-related height (EGM96)
+    geoid = pyproj.CRS("EPSG:4326+5773")
+
+    return pyproj.Transformer.from_crs(geoid, ellipsoid)
+
+
 def to_ellipsoid(lons, lats, alts):
     """
     Convert geoidal heights to ellipsoidal heights.
@@ -137,18 +154,10 @@ def to_ellipsoid(lons, lats, alts):
         (array): altitudes referenced to the ellipsoid
     """
     dtype = alts.dtype
-    # WGS84 with ellipsoid height as vertical axis
-    ellipsoid = pyproj.CRS.from_epsg(4979)
 
-    # WGS84 with Gravity-related height (EGM96)
-    geoid = pyproj.CRS("EPSG:4326+5773")
+    transformer = _get_ellipsoid_geoid_transformer()
+    new_alt = transformer.transform(lats, lons, alts, errcheck=True)[-1]
 
-    trf = pyproj.Transformer.from_crs(geoid, ellipsoid)
-
-    # check that pyproj actually modified the values
-    new_alt = trf.transform(lats, lons, alts)[-1]
-
-    assert np.any(new_alt != alts)
     return np.around(new_alt, 5).astype(dtype)
 
 
