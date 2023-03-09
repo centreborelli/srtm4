@@ -17,7 +17,7 @@ import requests
 from requests.adapters import HTTPAdapter, Retry, RetryError
 import filelock
 
-SRTM_URL = 'https://srtm.csi.cgiar.org/wp-content/uploads/files/srtm_5x5/TIFF'
+SRTM_URL = 'https://e4ftl01.cr.usgs.gov//DP133/SRTM/SRTMGL1.003/2000.02.11'
 
 
 def _requests_retry_session(
@@ -102,7 +102,8 @@ def get_srtm_tile(srtm_tile, out_dir):
         return
 
     # download the zip file
-    srtm_tile_url = '{}/{}.zip'.format(SRTM_URL, srtm_tile)
+    x, y = srtm_tile
+    srtm_tile_url = f'{SRTM_URL}/{y}{x}.SRTMGL1.hgt.zip'
     zip_path = os.path.join(output_dir, '{}.zip'.format(srtm_tile))
 
     lock_zip = filelock.FileLock(srtm_zip_download_lock)

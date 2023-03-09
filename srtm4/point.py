@@ -33,6 +33,21 @@ def lon_lats_str(lon, lat):
     return lon_lats
 
 
+def tile_from_lon_lat(lon, lat):
+    if lon < 0:
+        lon_direction = "W"
+    else:
+        lon_direction = "E"
+    if lat < 0:
+        lat_direction = "S"
+    else:
+        lat_direction = "N"
+        
+    lon = int(lon)
+    lat = int(lat)
+    
+    return f"{lon_direction}{str(lon).zfill(3)}", f"{lat_direction}{str(lat).zfill(2)}"
+        
 def srtm4_which_tile(lon, lat):
     """
     Determine the srtm tiles needed to cover the (list of) point(s)
@@ -70,10 +85,10 @@ def srtm4(lon, lat):
     """
     # get the names of srtm_tiles needed
     srtm_tiles = srtm4_which_tile(lon, lat)
-
+    srtm_tile_lon, srtm_tile_lat = tile_from_lon_latlon, lat)
     # download the tiles if not already there
     for srtm_tile in set(srtm_tiles):
-        download.get_srtm_tile(srtm_tile, SRTM_DIR)
+        download.get_srtm_tile((srtm_tile_lon, srtm_tile_lat), SRTM_DIR)
 
     # run the srtm4 binary and feed it from stdin
     lon_lats = lon_lats_str(lon, lat)
