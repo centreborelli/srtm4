@@ -96,9 +96,10 @@ def get_srtm_tile(srtm_tile, out_dir):
         # the tif file is either being written or finished writing
         # locking will ensure it is not being written.
         # Also by construction we won't write on something complete.
-        lock_tif = filelock.FileLock(srtm_tif_write_lock)
-        lock_tif.acquire()
-        lock_tif.release()
+        if os.path.exists(srtm_tif_write_lock):
+            lock_tif = filelock.FileLock(srtm_tif_write_lock)
+            lock_tif.acquire()
+            lock_tif.release()
         return
 
     # download the zip file
