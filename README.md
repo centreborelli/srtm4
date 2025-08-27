@@ -10,7 +10,7 @@ Meinhardt, Gabriele Facciolo, CMLA 2018
 # Installation and dependencies
 
 The main source code repository for this project is https://github.com/centreborelli/srtm4.
-It is written in Python. It is tested with Python 3.7, 3.8, 3.9 and 3.10.
+It is written in Python. It is tested with Python 3.10, 3.11, 3.12 and 3.13.
 
 `srtm4` requires `libtiff` development files. They can be installed with
 `apt-get install libtiff-dev` (Ubuntu, Debian) or `brew install libtiff`
