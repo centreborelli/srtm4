@@ -20,6 +20,8 @@ Once `libtiff` is installed, `srtm4` can be installed with `pip`:
 
     pip install srtm4
 
+Installing `pkg-config`/`pkgconf` might solve some compilation issues.
+
 # Usage
 
 In a Python interpreter:
